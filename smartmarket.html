@@ -1,0 +1,161 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>SmartMarket AI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--ink:#12142b;--mut:#62677f;--line:#dfe3f0;--ac:#3b4bf5;--acs:#e8eaff;--ok:#0f9d58;--warn:#c98a00;--bad:#d93025;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0e1020;--card:#171a30;--ink:#eef0ff;--mut:#9aa0c0;--line:#2a2e4d;--acs:#232860}}
+:root[data-theme=dark]{--bg:#0e1020;--card:#171a30;--ink:#eef0ff;--mut:#9aa0c0;--line:#2a2e4d;--acs:#232860}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 'Bricolage Grotesque',system-ui,sans-serif;padding-bottom:70px}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 14px}
+button.p{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:600}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+input,select,textarea{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.w{max-width:1120px;margin:0 auto;padding:0 16px}
+.nav{display:flex;align-items:center;gap:14px;height:58px}.logo{font-weight:800;font-size:19px;cursor:pointer}.logo b{color:var(--ac)}
+.links{display:none;gap:4px;margin-left:auto}.links button{border:0;background:none}.links button.on{background:var(--acs);color:var(--ac)}
+@media(min-width:800px){.links{display:flex}.bn{display:none!important}body{padding-bottom:0}}
+.bn{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;background:var(--card);border-top:1px solid var(--line);padding:6px 0 calc(6px + env(safe-area-inset-bottom,0px));z-index:20}
+.bn button{border:0;background:none;font-size:11px;display:flex;flex-direction:column;align-items:center;padding:4px 8px}.bn .sell{background:var(--ac);color:#fff;border-radius:50%;width:52px;height:52px;margin-top:-22px;font-size:24px;justify-content:center}
+.hero{padding:40px 0 24px}.hero h1{font-size:clamp(34px,7vw,64px);line-height:1.02;margin:0 0 12px;font-weight:800;letter-spacing:-.03em}
+.hero p{color:var(--mut);max-width:560px}.sb{display:flex;gap:8px;margin:18px 0;max-width:640px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}.grid.list{grid-template-columns:1fr}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .15s}.card:hover{transform:translateY(-3px)}
+.img{height:150px;display:grid;place-items:center;font-size:56px;position:relative}.list .card{display:flex}.list .img{width:160px;flex:none}
+.cb{padding:12px}.pr{font-weight:800;font-size:18px}.mu{color:var(--mut);font-size:13px}
+.bd{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;background:var(--acs);color:var(--ac)}.bd.ok{background:#0f9d5820;color:var(--ok)}.bd.wn{background:#c98a0022;color:var(--warn)}.bd.bd2{background:#d9302022;color:var(--bad)}
+.heart{position:absolute;top:8px;right:8px;border-radius:50%;padding:4px 8px}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}.cat{padding:14px;text-align:center;cursor:pointer}.cat span{font-size:30px;display:block}
+h2{margin:28px 0 12px;font-size:24px;letter-spacing:-.02em}
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:14px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px}
+.drop{border:2px dashed var(--ac);border-radius:16px;padding:36px;text-align:center;cursor:pointer;background:var(--acs)}
+.steps li{list-style:none;padding:5px 0;color:var(--mut)}.steps li.done{color:var(--ink)}.steps li.done:before{content:'✓ ';color:var(--ok)}.steps{padding:0}
+.bar{height:8px;background:var(--line);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ac);width:0;transition:width .4s}
+.row2{display:grid;grid-template-columns:1fr;gap:14px}@media(min-width:800px){.row2{grid-template-columns:1fr 1fr}}
+.tags span{margin:2px 4px 2px 0}.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}.stat div{padding:14px}.stat b{font-size:26px;display:block}
+table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line);font-size:14px}
+.modal{position:fixed;inset:0;background:#0009;display:none;place-items:center;z-index:50;padding:14px}.modal.on{display:grid}.modal>div{background:var(--card);border-radius:18px;padding:20px;max-width:520px;width:100%;max-height:90vh;overflow:auto}
+#toasts{position:fixed;top:70px;right:12px;z-index:60}.toast{background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:10px;margin-bottom:8px;animation:in .25s}@keyframes in{from{opacity:0;transform:translateX(20px)}}
+.sk{background:linear-gradient(90deg,var(--line),var(--card),var(--line));background-size:200% 100%;animation:sh 1.2s infinite;border-radius:16px;height:230px}@keyframes sh{to{background-position:-200% 0}}
+.scan{position:relative;overflow:hidden;font-size:80px;text-align:center;padding:20px}.scan:after{content:'';position:absolute;left:0;right:0;height:3px;background:var(--ac);box-shadow:0 0 18px var(--ac);animation:sc 1.4s infinite alternate}@keyframes sc{from{top:0}to{top:100%}}
+.chat{height:260px;overflow:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:8px}.m{padding:8px 12px;border-radius:14px;max-width:85%;background:var(--acs)}.m.me{align-self:flex-end;background:var(--ac);color:#fff}
+.view{display:none}.view.on{display:block}.empty{text-align:center;padding:40px;color:var(--mut)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<header><div class="w nav"><div class="logo" onclick="go('home')">SmartMarket <b>AI</b></div>
+<div class="links" id="links"></div><button id="th" aria-label="Toggle theme">◐</button><button class="p" id="lg" onclick="login()">Log in</button></div></header>
+<main class="w" id="app">
+<section class="view" id="home"><div class="hero"><h1>Sell Smarter. Buy Better. Powered by AI.</h1>
+<p>Upload a photo and let AI create your product listing, suggest the right price, and check it for prohibited or suspicious items.</p>
+<div class="sb"><input id="hq" placeholder="What are you looking for?" aria-label="Search"><button onclick="vs()" title="Search by image">📷</button><button class="p" onclick="go('browse',$('#hq').value)">Search</button></div>
+<button class="p" onclick="go('sell')">Sell with AI</button> <button onclick="go('browse')">Explore Marketplace</button></div>
+<h2>Categories</h2><div class="cats" id="cats"></div><h2 id="recT">Recommended for you</h2><div class="mu" id="recW"></div><div class="grid" id="rec"></div></section>
+<section class="view" id="browse"><h2>Marketplace</h2><div class="filters">
+<input id="q" placeholder="Search products"><select id="fc"></select><select id="fk"><option value="">Any condition</option><option>New</option><option>Used – Good</option><option>Used – Fair</option></select>
+<select id="fl"></select><input id="fp" type="number" placeholder="Max price ₹"><select id="so"><option value="rel">Relevance</option><option value="new">Newest</option><option value="lo">Price: Low to High</option><option value="hi">Price: High to Low</option></select>
+<button onclick="$('#pl').classList.toggle('list')">Grid / List</button></div><div id="vsn"></div><div class="grid" id="pl"></div></section>
+<section class="view" id="sell"><h2>Sell with AI</h2><div id="sellBody"></div></section>
+<section class="view" id="dash"><h2>Seller dashboard</h2><div class="stat" id="stat"></div>
+<div class="row2"><div class="panel"><b>Views this week</b><svg id="ch" viewBox="0 0 280 110" width="100%"></svg></div>
+<div class="panel"><b>AI Seller Insights</b><p>📈 Used smartphones are currently receiving high buyer interest.</p><p>💰 Your current price is above similar listings.</p><p>Demand: <span class="bd ok">High</span></p><p>Consider adding more products in this category.</p></div></div>
+<div class="panel"><b>My listings</b><table id="ml"></table></div></section>
+<section class="view" id="msgs"><h2>Messages & notifications</h2><div class="row2"><div class="panel"><div class="mu">Never share passwords, OTPs, or sensitive financial information in chat.</div><div class="chat" id="cw"></div>
+<div style="display:flex;gap:6px"><input id="ci" placeholder="Message seller"><button class="p" onclick="send()">Send</button><button onclick="offer()">Offer</button></div><div style="margin-top:8px"><button onclick="toast('User reported')">Report</button> <button onclick="toast('User blocked')">Block</button></div></div>
+<div class="panel"><b>Notifications</b><p>💬 New message from Riya</p><p>🏷️ Offer received: ₹28,000 on Sony camera</p><p>✅ Listing approved: Study desk</p><p>📉 Wishlist price drop: Gaming laptop −₹2,000</p></div></div></section>
+<section class="view" id="admin"><h2>Admin moderation</h2><div class="stat" id="astat"></div><div class="panel"><b>Review queue</b><table id="aq"></table></div></section>
+<section class="view" id="wish"><h2>Wishlist</h2><div class="grid" id="wl"></div></section>
+</main>
+<nav class="bn" id="bn"></nav>
+<div class="modal" id="md"><div id="mb"></div></div>
+<div class="modal" id="ai"><div><b>MarketAI Assistant</b><div class="chat" id="ac"><div class="m">Ask me e.g. “used iPhone under 30000” or “laptop for coding”.</div></div><div style="display:flex;gap:6px"><input id="ai_i" placeholder="Ask MarketAI"><button class="p" onclick="ask()">Ask</button></div><button style="margin-top:8px" onclick="$('#ai').classList.remove('on')">Close</button></div></div>
+<button class="p" style="position:fixed;right:14px;bottom:90px;z-index:30;border-radius:99px" onclick="$('#ai').classList.add('on')">✨ Assistant</button>
+<div id="toasts"></div>
+<script>
+const $=s=>document.querySelector(s),cats=[['📱','Mobiles'],['💻','Laptops'],['🎧','Electronics'],['👟','Fashion'],['🛋️','Furniture'],['🚲','Vehicles'],['📚','Books'],['🧊','Home Appliances'],['🏏','Sports'],['🎮','Gaming'],['📷','Cameras'],['📦','Other']];
+const cols=['#dfe4ff','#ffe3d6','#d8f3e6','#f6e1ff','#fff2c6'];
+let P=[['Apple iPhone 13 128GB Blue',32500,'Mobiles','Used – Good','Pune',4.8,'📱','Apple'],['Samsung Galaxy S21 128GB',24000,'Mobiles','Used – Good','Mumbai',4.5,'📱','Samsung'],['OnePlus 11 5G 256GB',38000,'Mobiles','New','Bengaluru',4.9,'📱','OnePlus'],
+['Dell XPS 13 i7 16GB (coding ready)',52000,'Laptops','Used – Good','Pune',4.7,'💻','Dell'],['MacBook Air M1 8GB',54000,'Laptops','Used – Fair','Delhi',4.6,'💻','Apple'],['Lenovo ThinkPad T14 for developers',36000,'Laptops','Used – Good','Hyderabad',4.4,'💻','Lenovo'],
+['Sony WH-1000XM4 Headphones',14000,'Electronics','Used – Good','Chennai',4.8,'🎧','Sony'],['Nike Air Max Sneakers',6500,'Fashion','New','Mumbai',4.2,'👟','Nike'],['Solid Wood Study Desk',5200,'Furniture','Used – Good','Pune',4.9,'🛋️','Local'],
+['Hero Sprint Bicycle',7800,'Vehicles','Used – Fair','Pune',4.3,'🚲','Hero'],['PlayStation 5 Disc Edition',36000,'Gaming','Used – Good','Bengaluru',4.7,'🎮','Sony'],['Canon EOS 200D DSLR Kit',28000,'Cameras','Used – Good','Delhi',4.6,'📷','Canon'],['Samsung 253L Refrigerator',15000,'Home Appliances','Used – Good','Hyderabad',4.5,'🧊','Samsung'],['Yonex Badminton Racket Set',3200,'Sports','New','Chennai',4.8,'🏏','Yonex']]
+.map((a,i)=>({id:i,t:a[0],p:a[1],c:a[2],k:a[3],l:a[4],r:a[5],e:a[6],b:a[7],bg:cols[i%5],d:14-i}));
+let wish=new Set([3]),user=null,me=[{t:'Sony camera lens 50mm',p:9000,v:212,s:'Active',a:'Safe'},{t:'Study desk',p:5200,v:140,s:'Active',a:'Safe'},{t:'Old gaming keyboard',p:1800,v:38,s:'Under Review',a:'Review'},{t:'Vintage watch',p:9999,v:12,s:'Draft',a:'—'}];
+let mod=[['Nike Shoes','Potential Counterfeit',87],['Rolex Watch','Potential Counterfeit',91],['Kitchen Knife Set','Possible Prohibited',64]],vsRes=null,cur=null;
+const toast=m=>{const t=document.createElement('div');t.className='toast';t.textContent=m;$('#toasts').append(t);setTimeout(()=>t.remove(),2600)};
+const inr=n=>'₹'+Number(n).toLocaleString('en-IN');
+const nav=[['home','Home'],['browse','Browse'],['sell','Sell Item'],['msgs','Messages'],['wish','Wishlist'],['dash','Dashboard'],['admin','Admin']];
+$('#links').innerHTML=nav.map(n=>`<button data-v="${n[0]}" onclick="go('${n[0]}')">${n[1]}</button>`).join('');
+$('#bn').innerHTML=[['home','🏠','Home'],['browse','🔍','Search'],['sell','+','Sell'],['msgs','💬','Messages'],['dash','👤','Profile']].map(n=>`<button ${n[0]=='sell'?'class="sell"':''} onclick="go('${n[0]}')">${n[1]}${n[0]=='sell'?'':'<span>'+n[2]+'</span>'}</button>`).join('');
+$('#th').onclick=()=>{const r=document.documentElement;r.dataset.theme=(r.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))=='dark'?'light':'dark'};
+function go(v,q){document.querySelectorAll('.view').forEach(x=>x.classList.toggle('on',x.id==v));document.querySelectorAll('.links button').forEach(b=>b.classList.toggle('on',b.dataset.v==v));scrollTo(0,0);
+ if(v=='browse'){if(q!==undefined)$('#q').value=q;vsRes=null;$('#vsn').innerHTML='';load()}
+ if(v=='sell')sell(0);if(v=='wish')renderWish();if(v=='dash')dash();if(v=='admin')adm();if(v=='msgs')chatInit()}
+function card(p,sim){return `<div class="card"><div class="img" style="background:${p.bg}" onclick="detail(${p.id})">${p.e}<button class="heart" aria-label="Save" onclick="event.stopPropagation();tw(${p.id})">${wish.has(p.id)?'❤️':'🤍'}</button></div>
+<div class="cb" onclick="detail(${p.id})"><div class="pr">${inr(p.p)}</div><div>${p.t}</div><div class="mu">📍 ${p.l} · ${p.k} · ⭐ ${p.r}</div><span class="bd ok">AI screened</span>${sim?` <span class="bd">${sim}% visually similar</span>`:''}</div></div>`}
+function tw(i){wish.has(i)?wish.delete(i):wish.add(i);toast(wish.has(i)?'Saved to wishlist':'Removed from wishlist');refresh()}
+function refresh(){const v=document.querySelector('.view.on').id;if(v=='home')home();if(v=='browse')draw();if(v=='wish')renderWish()}
+function home(){$('#cats').innerHTML=cats.map(c=>`<div class="card cat" onclick="$('#fc').value='${c[1]}';go('browse','');$('#fc').value='${c[1]}';draw()"><span>${c[0]}</span>${c[1]}<div class="mu">${P.filter(p=>p.c==c[1]).length} items</div></div>`).join('');
+ $('#recW').textContent='Because you viewed laptops (change in Settings → Privacy: personalization on)';$('#rec').innerHTML=P.filter(p=>p.c=='Laptops').map(p=>card(p)).join('')}
+$('#fc').innerHTML='<option value="">All categories</option>'+cats.map(c=>`<option>${c[1]}</option>`).join('');
+$('#fl').innerHTML='<option value="">Any location</option>'+[...new Set(P.map(p=>p.l))].map(l=>`<option>${l}</option>`).join('');
+['q','fc','fk','fl','fp','so'].forEach(i=>$('#'+i).addEventListener('input',draw));
+function load(){$('#pl').innerHTML='<div class="sk"></div>'.repeat(4);setTimeout(draw,450)}
+function draw(){let r=vsRes?vsRes.map(x=>P[x[0]]):P.slice();const q=$('#q').value.toLowerCase(),f=$('#fc').value,k=$('#fk').value,l=$('#fl').value,mp=+$('#fp').value,s=$('#so').value;
+ r=r.filter(p=>(!q||(p.t+p.b+p.c).toLowerCase().includes(q))&&(!f||p.c==f)&&(!k||p.k==k)&&(!l||p.l==l)&&(!mp||p.p<=mp));
+ if(s=='lo')r.sort((a,b)=>a.p-b.p);if(s=='hi')r.sort((a,b)=>b.p-a.p);if(s=='new')r.sort((a,b)=>a.d-b.d);
+ $('#pl').innerHTML=r.length?r.map(p=>card(p,vsRes&&vsRes.find(x=>x[0]==p.id)[1])).join(''):'<div class="empty">'+(q?'No products found for “'+q+'”. Try fewer filters.':'No products match these filters.')+'</div>'}
+function vs(){const f=document.createElement('input');f.type='file';f.accept='image/*';f.onchange=()=>{const x=f.files[0];if(!x||!/^image\/(jpeg|png|webp)$/.test(x.type))return toast('Unsupported file. Use JPG, PNG or WebP.');
+ const h=[...x.name].reduce((a,c)=>a+c.charCodeAt(0),0);vsRes=P.map((p,i)=>[i,Math.max(52,97-((i*7+h)%40))]).sort((a,b)=>b[1]-a[1]).slice(0,6);go('browse');vsRes=vsRes;$('#vsn').innerHTML='<div class="panel"><b>Similar Products Found</b><div class="mu">Demo mode: similarity is a visual/attribute estimate, not a guarantee of exact identity.</div></div>';draw()};f.click()}
+function detail(i){const p=P[i];$('#mb').innerHTML=`<div class="img" style="background:${p.bg};border-radius:14px;height:200px;font-size:90px">${p.e}</div><h3>${p.t}</h3><div class="pr">${inr(p.p)}</div><p><span class="bd ok">AI screened</span> <span class="bd">${p.k}</span></p>
+<p class="mu">Brand: ${p.b} · Category: ${p.c} · Posted ${p.d} days ago · 📍 ${p.l}<br>Seller: Aarav (⭐ ${p.r}, 24 sales). AI screening is not proof of authenticity — inspect before paying.</p>
+<button class="p" onclick="need(()=>{closeM();cur=${i};go('msgs')})">Chat with Seller</button> <button onclick="need(()=>{closeM();offer(${i})})">Make an Offer</button> <button onclick="tw(${i})">Save</button> <button onclick="toast('Report submitted')">Report Listing</button> <button onclick="closeM()">Close</button>`;$('#md').classList.add('on')}
+const closeM=()=>$('#md').classList.remove('on');
+function need(fn){user?fn():login(fn)}
+function login(fn){$('#mb').innerHTML=`<h3>Log in or register</h3><input id="le" type="email" placeholder="Email" style="margin:6px 0"><input id="lp" type="password" placeholder="Password (min 8 chars)" style="margin:6px 0"><button class="p" id="lgo">Log in</button> <button onclick="toast('Google login needs a backend')">Google</button> <button onclick="toast('Reset link sent (demo)')">Forgot password</button> <button onclick="closeM()">Continue as guest</button>`;$('#md').classList.add('on');
+ $('#lgo').onclick=()=>{if(!/^\S+@\S+\.\S+$/.test($('#le').value)||$('#lp').value.length<8)return toast('Enter a valid email and an 8+ character password.');user=$('#le').value;$('#lg').textContent='Aarav ▾';closeM();toast('Logged in');fn&&fn()}}
+function renderWish(){$('#wl').innerHTML=wish.size?[...wish].map(i=>card(P[i])).join(''):'<div class="empty">Nothing saved yet. Tap 🤍 on any listing.</div>'}
+function dash(){$('#stat').innerHTML=[['Active',me.filter(m=>m.s=='Active').length],['Views',402],['Likes',57],['Messages',9],['Sold',6],['Sales','₹1.2L']].map(s=>`<div class="card"><b>${s[1]}</b>${s[0]}</div>`).join('');
+ const d=[30,52,41,70,64,90,78];$('#ch').innerHTML=d.map((v,i)=>`<rect x="${i*40+8}" y="${100-v}" width="26" height="${v}" rx="5" fill="var(--ac)"/>`).join('');
+ $('#ml').innerHTML='<tr><th>Item<th>Price<th>Views<th>Status<th>AI<th></tr>'+me.map((m,i)=>`<tr><td>${m.t}<td>${inr(m.p)}<td>${m.v}<td><span class="bd ${m.s=='Active'?'ok':'wn'}">${m.s}</span><td>${m.a}<td><button onclick="toast('Edit opened')">Edit</button> <button onclick="me.splice(${i},1);dash();toast('Deleted')">Delete</button></tr>`).join('')}
+function adm(){$('#astat').innerHTML=[['Users','12,480'],['Listings','8,214'],['Active','5,930'],['Sold','2,051'],['Reported',41],['AI rejections',119],['Pending',mod.length]].map(s=>`<div class="card"><b>${s[1]}</b>${s[0]}</div>`).join('');
+ $('#aq').innerHTML=mod.length?'<tr><th>Product<th>AI result<th>Conf.<th>Status<th></tr>'+mod.map((m,i)=>`<tr><td>${m[0]}<td>${m[1]}<td>${m[2]}%<td><span class="bd wn">Manual review</span><td><button onclick="mq(${i},'Approved')">Approve</button> <button onclick="mq(${i},'Rejected')">Reject</button> <button onclick="mq(${i},'More info requested')">Request info</button></tr>`).join(''):'<tr><td class="empty">Queue is clear 🎉</tr>'}
+function mq(i,a){toast(mod[i][0]+': '+a);mod.splice(i,1);adm()}
+function chatInit(){if(!$('#cw').children.length){add('Hi! Is the '+(cur!=null?P[cur].t:'item')+' still available?',0);add('Yes, it is. Happy to meet in a public place.',1)}}
+function add(t,me){const d=document.createElement('div');d.className='m'+(me?'':' me');d.textContent=t;$('#cw').append(d);$('#cw').scrollTop=1e5}
+function send(){const v=$('#ci').value.trim();if(!v)return;add(v,0);$('#ci').value='';setTimeout(()=>add('Thanks, will reply shortly.',1),700)}
+function offer(i){add('Offer sent: '+inr(i!=null?Math.round(P[i].p*.9):28000),0);toast('Offer sent');if(i!=null)go('msgs')}
+function ask(){const q=$('#ai_i').value.trim();if(!q)return;const b=$('#ac');b.insertAdjacentHTML('beforeend',`<div class="m me"></div>`);b.lastChild.textContent=q;$('#ai_i').value='';
+ const n=(q.replace(/,/g,'').match(/(\d{4,6})/)||[])[1],w=q.toLowerCase();let r=P.filter(p=>(!n||p.p<=+n)&&(/phone|iphone/.test(w)?p.c=='Mobiles':/laptop|coding/.test(w)?p.c=='Laptops':w.split(/\W+/).some(x=>x.length>3&&p.t.toLowerCase().includes(x)))).slice(0,3);
+ b.insertAdjacentHTML('beforeend',r.length?`<div class="m">Found ${r.length} match(es):${r.map(p=>`<div><a href="#" onclick="detail(${p.id});return false">${p.t} – ${inr(p.p)}</a></div>`).join('')}Tip: offer about 8–10% below asking.</div>`:'<div class="m">No products found. Try a different budget or category.</div>');b.scrollTop=1e5}
+/* ---- Sell with AI (DEMO MODE: mock analysis, replace aiAnalyze with real API call via backend) ---- */
+let S={};
+function aiAnalyze(name){const n=name.toLowerCase(),h=[...n].reduce((a,c)=>a+c.charCodeAt(0),0);
+ if(/knife|gun|weapon|drug/.test(n))return{status:'bad'};if(/fake|replica|copy/.test(n))return{status:'review',conf:.87,...P[7]};
+ if(/blank|unknown|test/.test(n))return{status:'none'};const p=P[h%P.length];return{status:'ok',conf:.9,...p}}
+function sell(step){const b=$('#sellBody');
+ if(step==0){S={};b.innerHTML=`<div class="panel"><div class="mu" style="margin-bottom:8px">Demo AI mode: results are simulated. Connect a real vision API in <code>aiService</code> for production.</div><div class="drop" id="dz" tabindex="0"><div style="font-size:44px">📸</div><b>Upload a product photo</b><div class="mu">JPG, PNG or WebP · max 5 MB · drag & drop or tap</div></div></div>`;
+  const dz=$('#dz');dz.onclick=()=>{const f=document.createElement('input');f.type='file';f.accept='image/*';f.capture='environment';f.onchange=()=>pick(f.files[0]);f.click()};dz.ondragover=e=>e.preventDefault();dz.ondrop=e=>{e.preventDefault();pick(e.dataTransfer.files[0])}}
+ if(step==1)b.innerHTML=`<div class="panel"><img src="${S.url}" alt="Preview" style="max-width:100%;max-height:260px;border-radius:12px"><p><button class="p" onclick="scan()">Analyze with AI</button> <button onclick="sell(0)">Change photo</button></p></div>`;
+ if(step==3)result()}
+function pick(f){if(!f)return;if(!/^image\/(jpeg|png|webp)$/.test(f.type))return toast('Unsupported file. Upload a JPG, PNG or WebP image.');if(f.size>5e6)return toast('Image is over 5 MB. Choose a smaller photo.');S.f=f;S.url=URL.createObjectURL(f);sell(1)}
+function scan(){const st=['Detecting object','Identifying category','Detecting brand','Detecting color','Estimating condition','Generating description','Checking marketplace safety','Calculating suggested price'];
+ $('#sellBody').innerHTML=`<div class="panel"><b>SmartMarket AI is thinking…</b><div class="scan">🔍</div><div class="bar"><i id="pb"></i></div><ul class="steps" id="st">${st.map(s=>`<li>${s}</li>`).join('')}</ul></div>`;
+ let i=0;const t=setInterval(()=>{document.querySelectorAll('#st li')[i]?.classList.add('done');i++;$('#pb').style.width=i/st.length*100+'%';if(i>=st.length){clearInterval(t);S.r=aiAnalyze(S.f.name);setTimeout(()=>sell(3),300)}},380)}
+function result(){const r=S.r,b=$('#sellBody');
+ if(r.status=='none'){b.innerHTML='<div class="panel"><b>Product not detected</b><p>We couldn\'t confidently identify this product. Try uploading a clearer image.</p><button class="p" onclick="sell(0)">Try another photo</button></div>';return}
+ if(r.status=='bad'){b.innerHTML='<div class="panel"><span class="bd bd2">🔴 Listing Rejected</span><p>This listing cannot be published because the detected item appears to belong to a prohibited category.</p><button onclick="sell(0)">Start over</button></div>';return}
+ const rev=r.status=='review';S.t=r.t;S.pr=Math.round(r.p*.97/100)*100;
+ b.innerHTML=`<div class="panel"><span class="bd ${rev?'wn':'ok'}">${rev?'🟡 Manual Review Required':'🟢 Safe to List'}</span><p class="mu">${rev?'AI could not confidently verify this item. Manual verification is required.':'AI screening found no prohibited-category match.'} This is a screening, not a guarantee of authenticity.</p></div>
+ <div class="row2"><div class="panel"><b>Detected product</b><p>Product: ${r.t}<br>Brand: ${r.b}<br>Category: ${r.c}<br>Condition: ${r.k}<br>Confidence: ${Math.round(r.conf*100)}%</p><div class="tags"><span class="bd">${r.b}</span><span class="bd">${r.c}</span><span class="bd">${r.k}</span></div></div>
+ <div class="panel"><b>Edit your listing</b><label class="mu">Title</label><input id="et" value="${r.t}"><label class="mu">Description</label><textarea id="ed" rows="4">${r.b} ${r.t.replace(r.b,'').trim()} in ${r.k.toLowerCase()} condition. Photos show the actual item. Meet in a public place; inspect before paying.</textarea></div></div>
+ <div class="panel"><b>AI suggested price</b><div class="pr">${inr(S.pr)}</div><div class="mu">Range ${inr(S.pr*.93)} – ${inr(S.pr*1.07)} · Demand: High · Condition adjustment −3% (estimates, not market quotes)</div><input id="ep" type="number" value="${S.pr}" style="max-width:200px;margin:8px 0"> <button onclick="$('#ep').value=${S.pr}">Use Suggested Price</button></div>
+ <div class="panel"><b>Marketplace preview</b><div style="max-width:260px" class="grid"><div class="card"><div class="img" style="background:${r.bg}"><img src="${S.url}" alt="" style="width:100%;height:150px;object-fit:cover"></div><div class="cb"><div class="pr" id="pp">${inr(S.pr)}</div><div>${r.t}</div><div class="mu">📍 Pune · ${r.k}</div></div></div></div><p><button onclick="draft()">Save Draft</button> <button class="p" onclick="pub()" ${rev?'':''}>${rev?'Submit for review':'Publish Listing'}</button></p></div>`}
+function draft(){me.unshift({t:$('#et').value,p:+$('#ep').value,v:0,s:'Draft',a:'—'});toast('Draft saved')}
+function pub(){need(()=>{const t=$('#et').value.trim(),p=+$('#ep').value;if(!t||!(p>0))return toast('Add a title and a valid price.');const rev=S.r.status=='review';
+ me.unshift({t,p,v:0,s:rev?'Under Review':'Active',a:rev?'Review':'Safe'});if(rev)mod.unshift([t,'Potential Counterfeit',87]);else P.push({...S.r,id:P.length,t,p,d:0,l:"Pune"});
+ $('#sellBody').innerHTML=`<div class="panel empty"><div style="font-size:60px">✅</div><b>${rev?'Submitted for manual review':'Published'}</b><p>${rev?'An admin will approve or reject it.':'Your listing is now in the marketplace.'}</p><button class="p" onclick="go('${rev?'dash':'browse'}')">${rev?'Open dashboard':'View marketplace'}</button></div>`;toast(rev?'Submitted for review':'Published')})}
+addEventListener('click',e=>{if(e.target.id=='md')closeM()});
+home();go('home');
+</script></body></html>
